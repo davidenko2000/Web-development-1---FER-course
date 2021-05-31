@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> <%= title %> </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="/images/flower-icon.png"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+</head>
+
+<body class="content">
+
+<%- include(`partials/header`); %>
+
+<main class="main">
+
+    <section class="section secondary-color-bg">
+        <div class="centered-container">
+            <h1 class="font-secondary main-color">
+                Edit
+                <span class="main-color-emphasized">Expert</span>
+                for item
+                <span class="main-color-emphasized"><%= itemName %></span>
+            </h1>
+            <div class="separator"></div>
+        </div>
+		
+                <form action="/item/<%= itemId %>/editexpert/<%= expert.id %>" method="post">
+                    <fieldset class="fieldset container" style="margin: auto;" >
+                        <div class="label-input">
+                            <label for="name"> Name: </label>
+                            <input type="text" name="name" id="name" size=" 40 " value="<%= expert.name %>">
+                        </div>
+                        <div class="label-input">
+                            <label for="surname"> Surname:  </label>
+                            <input type="text" name="surname" id="surname" size=" 40 "value="<%= expert.surname %>">
+                        </div>
+                        <div class="label-input">
+                            <label for="email"> Email: </label>
+                            <input type="text" name="email" id="email" size=" 40 " value="<%= expert.email %>">
+                        </div>
+                        <div class="label-input">
+                            <label for="employed"> Employed since: </label>
+                            <input type="text" name="employed" id="employed" size="10 " value="<%= expert.employedsince %>">
+                        </div>
+                        <div class="label-input">
+                            <label for="expert"> Expert since: </label>
+                            <input type="text" name="expert" id="expert" size=" 10 " value="<%= expert.expertsince %>">
+                        </div>
+                        <hr>
+                        <div class="submitButtons">
+                            <input type="submit" class="btn" >
+                            <input type="reset" class="btn" >
+                        </div>
+                    </fieldset>
+                </form> 
+        
+    </section>
+</main>
+
+<%- include(`partials/footer`); %>
+
+</body>
+
+</html>

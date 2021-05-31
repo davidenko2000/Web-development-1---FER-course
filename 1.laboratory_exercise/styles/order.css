@@ -1,0 +1,60 @@
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 0.5em;
+}
+
+.photo-main {
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    margin: auto;
+    background-position: center;
+}
+
+.photo-main-tulips {
+    background-image: url(../images/tulip.jpg);
+}
+
+.photo-main-fuchsia {
+    background-image: url(../images/fuchsia.jpg);
+}
+
+.photo-main-lavender {
+    background-image: url(../images/lavender.jpg);
+}
+
+.photo-main-rake {
+    background-image: url(../images/rake.jpg);
+}
+
+.photo-main-shovel {
+    background-image: url(../images/shovel.jpg);
+}
+
+.photo-title {
+    font-size: 30px;
+    text-align: center;
+}
+
+.progress-bar-container-fill{
+    height: 20px;
+    width: 70%;
+    background-color: #ab4f8b;
+    border-radius: 20px;
+}
+.progress-bar-container{
+    border-color:  #e0aacd;
+    border-style: solid;
+    border-radius: 20px;
+    color: #ab4f8b;
+    text-indent: 70%;
+}
+.progress-bar{
+    margin: auto;
+    width: 35%;
+}
+.progress-bar-container:hover{
+    color: black;
+}
+
