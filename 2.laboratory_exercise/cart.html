@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flower power!</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="images/flower-icon.png" rel="shortcut icon" type="image/png"/>
+    <link href="vendor/normalize.css" rel="stylesheet" type="text/css">
+    <link href="styles/main.css" rel="stylesheet" type="text/css">
+    <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+</head>
+
+
+<body class="content body-header-fixed">
+    <header class="header header-fixed primary-color-bg">
+        <nav class="navigation container">
+            <div class="menu">
+                <a class="link menu-item" href="index.html">Home</a>
+                <a class="link menu-item" href="order.html">Order</a>
+                <a class="link" href="index.html">
+                    <img alt="Company logo" class="scaled-image scaled-image-fixed" src="images/logo.svg">
+                </a>
+                <a class="link menu-item" href="#">Contact us</a>
+                <a class="link menu-item cart-menu link-active" href="cart.html">
+                    <img alt="Cart icon" src="images/cart-icon.svg">
+                    <div class="cart-menu-status">
+                        <div id="cart-items">0</div>
+                        <div>items</div>
+                    </div>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main class="main">
+        <div class="centered-container">
+            <h1 class="decorated-title font-secondary main-color"><span class="main-color-emphasized">
+                            Shopping cart</span> items</h1>
+            <div class="separator"></div>
+        </div>
+        <div class="cart"></div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="menu menu-distributed">
+                <div class="infobox infobox-marginless infobox-copyright">
+                    <h4 class="infobox-title infobox-title-secondary-color main-color-emphasized">
+                        Copy this as much as you like
+                    </h4>
+                </div>
+                <div class="infobox infobox-marginless infobox-flower">
+                    <h4 class="infobox-title infobox-title-secondary-color main-color-emphasized">
+                        Flower power
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <template id="cart-template-header">
+        <div class="cart-header">
+            <div class="cart-header-title">Product</div>
+            <div class="cart-header-title">Price</div>
+            <div class="cart-header-title">Quantity</div>
+        </div>
+    </template>
+    <template id="cart-template-item">
+        <div class="cart-item">
+            <div class="cart-item-title">Tulips</div>
+            <div class="cart-item-price">15 kn</div>
+            
+            <input type="button" class="cart-btn-update-minus" value="-">
+            <input type="number" class="cart-item-quantity"></input>
+            <input type="button" class="cart-btn-update-plus" value="+">
+        </div>
+    </template>
+    
+    <script src="scripts/main.js"></script>
+    <script>
+        let updateQuantity = function (clickEvent) {
+            let cart = getCart();
+
+            let id = clickEvent.target.dataset.productId;
+            let quantity = Number(clickEvent.target.value);
+            
+            cart[id] = quantity;
+            setCart(cart);
+
+        };
+        let updatePlus = function (clickEvent) {
+            let cart = getCart();
+
+            let id = clickEvent.target.dataset.productId;
+            let quantity = cart[id];
+            if(quantity == null) quantity = 0;
+            
+            quantity++;
+            cart[id] = quantity;
+
+            setCart(cart);
+        };
+        let updateMinus = function (clickEvent) {
+            let cart = getCart();
+
+            let id = clickEvent.target.dataset.productId;
+            let quantity = cart[id];
+            if(quantity > 0) quantity--;
+            
+            cart[id] = quantity;
+
+            setCart(cart);
+        };
+
+        let getProduct = async function (id, quantity) {
+            let response = await fetch("https://web1lab2.azurewebsites.net/products/" + id);
+            let data = await response.json();
+            addItem(data, quantity);
+        };
+
+        let addItem = async function (item, quantity) {
+            let cart = document.querySelector(".cart");
+            let cartTemplateItem = document.querySelector("#cart-template-item");
+
+            let product = cartTemplateItem.content.cloneNode(true);
+
+            let productTitle = product.querySelector(".cart-item-title");
+            productTitle.textContent = item.name;
+
+            let productPrice = product.querySelector(".cart-item-price");
+            productPrice.dataset.price = item.price;
+            productPrice.textContent = item.price + " kn";
+
+            let productQuantity = product.querySelector(".cart-item-quantity");
+            productQuantity.value = quantity;
+            productQuantity.dataset.productId = item.id;
+            productQuantity.addEventListener("change", updateQuantity);
+
+            let productPlusButton = product.querySelector(".cart-btn-update-plus");
+            productPlusButton.dataset.productId = item.id;
+            productPlusButton.addEventListener("click", updatePlus);
+
+            let productMinusButton = product.querySelector(".cart-btn-update-minus");
+            productMinusButton.dataset.productId = item.id;
+            productMinusButton.addEventListener("click", updateMinus);
+
+            cart.appendChild(product);
+        };
+
+        let getCartStructure = async function () {
+            let cart = getCart();
+            
+            if ( Object.keys(cart).length !== 0) {
+                let cartElement = document.querySelector(".cart");
+                let cartTemplateHeader = document.querySelector("#cart-template-header");
+
+                let header = cartTemplateHeader.content.cloneNode(true);
+                cartElement.appendChild(header);
+            }
+
+            for (let id in cart) {
+                await getProduct(id, cart[id]);
+            }
+        };
+
+        getCartStructure();
+
+    </script>
+</body>
+
+</html>
