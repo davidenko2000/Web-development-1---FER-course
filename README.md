@@ -1,4 +1,4 @@
-# Webdevelopment1
+# Web development 1
 FER-course
 College course in second year of Bachelor's degree at Faculty of Electrical Engineering and Computing Zagreb.
 
